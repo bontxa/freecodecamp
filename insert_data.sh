@@ -9,12 +9,12 @@ fi
 
 # Do not change code above this line. Use the PSQL variable above to query your database.
 
+$PSQL "TRUNCATE TABLE games, teams"
+
 cat ./games.csv | while IFS="," read YEAR ROUND WINNER OPP WIN_G OPP_G
 do
   if [[ $YEAR != 'year' ]]
   then
-    #echo $WINNER $OPP
-    #get team_id
     TEAM_ID=$($PSQL "SELECT team_id FROM teams WHERE name='$WINNER'")
     if [[ -z $TEAM_ID ]]
     then
