@@ -39,15 +39,9 @@ echo "You guessed it in $MOVES tries. The secret number was $NUM. Nice job!"
 if [[ -z $GET_USERNAME ]]
 then
   INSERT_USER=$($PSQL "INSERT INTO users(username, games_played, best_game) VALUES ('$NAME', 1, $MOVES)")
-  exit
+elif [[ $MOVES -lt $BEST_GAME ]]
+then
+  UPDATE_MOVES=$(psql --username=freecodecamp --dbname=number_guess -t --no-align -c "UPDATE users SET games_played = games_played + 1, best_game = $MOVES WHERE username = '$NAME'")
+else
+  UPDATE_GAMES=$(psql --username=freecodecamp --dbname=number_guess -t --no-align -c "UPDATE users SET games_played=games_played + 1 WHERE username='$NAME'")
 fi
-#if [[ $MOVES -lt $BEST_GAME ]]
-#then
-#  UPDATE_MOVES=$($PSQL "UPDATE users SET games_played = games_played + 1, best_game = $MOVES WHERE username = '$NAME'")
-#  exit
-#fi
-##else
-#if [[ $MOVES -gt $BEST_GAME ]]
-#then
- # UPDATE_GAMES=$($PSQL "UPDATE users SET games_played = games_played + 1 WHERE username = '$NAME'")
-#fi
